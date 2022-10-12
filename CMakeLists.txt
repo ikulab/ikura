@@ -44,20 +44,8 @@ add_custom_target(
 	COMMENT "compiling shaders"
 )
 
-# ikulab-motion-viewer app ----------
-add_subdirectory(./src/app)
-add_dependencies(app shaders)
-
-# app dependencies
-target_link_libraries(app easyloggingpp)
-
 # ikura lib ----------
-add_subdirectory(./src/lib/ikura)
+add_subdirectory(./src)
 
 # ikura dependencies
 target_link_libraries(ikura INTERFACE vulkan glfw easyloggingpp vk_mem_alloc imgui tinyfiledialogs ${CMAKE_DL_LIBS})
-
-target_link_libraries(app ikura)
-
-# TODO: delete them
-target_link_libraries(motionUtil ikura)
