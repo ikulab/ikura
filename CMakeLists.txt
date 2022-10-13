@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 project(
-	ikulab-motion-viwer
+	ikura
 	VERSION 0.1.0
 	LANGUAGES CXX
 )
@@ -49,3 +49,34 @@ add_subdirectory(./src)
 
 # ikura dependencies
 target_link_libraries(ikura INTERFACE vulkan glfw easyloggingpp vk_mem_alloc imgui tinyfiledialogs ${CMAKE_DL_LIBS})
+
+# install ----------
+set(ikura_install_targets
+	ikura window nativeWindow virtualWindow
+	appEngine renderEngine renderComponent shape
+	initVulkanHppDispatchLoader
+	easyloggingpp vk_mem_alloc imgui tinyfiledialogs
+)
+
+install(TARGETS ${ikura_install_targets}
+	EXPORT ikuraTargets)
+
+install(EXPORT ikuraTargets
+	FILE ikuraTargets.cmake
+	DESTINATION lib/cmake/ikura
+)
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
+	"${CMAKE_CURRENT_BINARY_DIR}/ikuraConfig.cmake"
+	INSTALL_DESTINATION "lib/cmake/ikura"
+	NO_SET_AND_CHECK_MACRO
+	NO_CHECK_REQUIRED_COMPONENTS_MACRO)
+write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/ikuraConfigVersion.cmake"
+	VERSION "0.1.0"
+	COMPATIBILITY AnyNewerVersion)
+
+install(FILES
+	${CMAKE_CURRENT_BINARY_DIR}/ikuraConfig.cmake
+	${CMAKE_CURRENT_BINARY_DIR}/ikuraConfigVersion.cmake
+	DESTINATION lib/cmake/ikura)

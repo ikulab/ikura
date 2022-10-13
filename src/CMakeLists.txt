@@ -1,10 +1,11 @@
 add_library(ikura INTERFACE)
 
 set(common_include_dir
-	"${PROJECT_SOURCE_DIR}/includes"
-	"${PROJECT_SOURCE_DIR}/includes/tinyfiledialogs"
-	"${PROJECT_SOURCE_DIR}/includes/easylogging++"
-	"${PROJECT_SOURCE_DIR}/includes/vk_mem_alloc"
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes>
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes/tinyfiledialogs>
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes/easylogging++>
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes/vk_mem_alloc>
+	"$<INSTALL_INTERFACE:>"
 )
 
 add_subdirectory(./window)
@@ -30,4 +31,6 @@ add_subdirectory(./shape)
 target_include_directories(shape PUBLIC  "${common_include_dir}")
 target_link_libraries(ikura INTERFACE shape)
 
-target_include_directories(ikura INTERFACE ./)
+target_include_directories(ikura INTERFACE
+	$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>
+	$<INSTALL_INTERFACE:include>)
