@@ -24,6 +24,7 @@ target_link_libraries(ikura INTERFACE appEngine renderEngine)
 
 add_subdirectory(./renderComponent)
 target_include_directories(renderComponent PUBLIC "${common_include_dir}")
+target_link_libraries(ikura INTERFACE renderComponent)
 
 add_subdirectory(./misc)
 target_include_directories(initVulkanHppDispatchLoader PUBLIC "${common_include_dir}")

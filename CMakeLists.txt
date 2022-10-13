@@ -36,7 +36,7 @@ add_subdirectory(./includes/imgui)
 add_subdirectory(./includes/easylogging++)
 add_subdirectory(./includes/vk_mem_alloc)
 
-add_library(ikura-ext-lib ${ikura-ext-src})
+add_library(ikura-ext-lib STATIC ${ikura-ext-src})
 
 # shader compile ----------
 add_custom_target(
@@ -52,7 +52,8 @@ add_subdirectory(./src)
 add_dependencies(ikura shaders)
 
 # ikura dependencies
-target_link_libraries(ikura INTERFACE vulkan glfw ikura-ext-src ${CMAKE_DL_LIBS})
+target_link_libraries(ikura INTERFACE vulkan glfw ${CMAKE_DL_LIBS})
+target_link_libraries(ikura INTERFACE ikura-ext-lib)
 
 # install ----------
 set(ikura_install_targets
