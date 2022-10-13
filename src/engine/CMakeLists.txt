@@ -8,3 +8,11 @@ file(GLOB RENDER_ENGINE_SOURCE renderEngine/*.cpp)
 add_library(renderEngine STATIC ${RENDER_ENGINE_SOURCE})
 
 target_compile_definitions(renderEngine PUBLIC VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1)
+
+install(FILES
+	${CMAKE_SOURCE_DIR}/src/engine/appEngine.hpp
+	DESTINATION include/ikura/engine)
+
+install(FILES
+	${CMAKE_SOURCE_DIR}/src/engine/renderEngine/renderEngine.hpp
+	DESTINATION include/ikura/engine/renderEngine)

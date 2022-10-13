@@ -23,9 +23,7 @@
 namespace ikura {
 // Forward Declearration ----------
 class RenderEngine;
-namespace ikura {
 class RenderTarget;
-}
 
 struct RenderEngineInfo {
     struct SupportInfo {

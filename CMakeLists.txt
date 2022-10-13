@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(
 	ikura
 	VERSION 0.1.0
-	LANGUAGES CXX
+	LANGUAGES C CXX
 )
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -30,33 +30,43 @@ endif()
 # external libraries ----------
 find_package(Vulkan REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
+
+set(ikura-ext-src "")
 add_subdirectory(./includes/imgui)
-add_subdirectory(./includes/tinyfiledialogs)
 add_subdirectory(./includes/easylogging++)
 add_subdirectory(./includes/vk_mem_alloc)
+
+add_library(ikura-ext-lib ${ikura-ext-src})
 
 # shader compile ----------
 add_custom_target(
 	shaders
 	make -f compile_shaders.makefile
-	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/scripts
-	DEPENDS ./shaders/shader.frag ./shaders/shader.vert
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/scripts
+	DEPENDS ${CMAKE_SOURCE_DIR}/shaders/shader.frag ${CMAKE_SOURCE_DIR}/shaders/shader.vert
 	COMMENT "compiling shaders"
 )
 
 # ikura lib ----------
 add_subdirectory(./src)
+add_dependencies(ikura shaders)
 
 # ikura dependencies
-target_link_libraries(ikura INTERFACE vulkan glfw easyloggingpp vk_mem_alloc imgui tinyfiledialogs ${CMAKE_DL_LIBS})
+target_link_libraries(ikura INTERFACE vulkan glfw ikura-ext-src ${CMAKE_DL_LIBS})
 
 # install ----------
 set(ikura_install_targets
 	ikura window nativeWindow virtualWindow
 	appEngine renderEngine renderComponent shape
 	initVulkanHppDispatchLoader
-	easyloggingpp vk_mem_alloc imgui tinyfiledialogs
+	ikura-ext-lib
 )
+
+add_custom_target(ikura-pack ALL
+	COMMAND ${CMAKE_SOURCE_DIR}/scripts/pack_library.sh
+	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+	DEPENDS ${ikura_install_targets}
+	COMMENT "packing ikura.a")
 
 install(TARGETS ${ikura_install_targets}
 	EXPORT ikuraTargets)
@@ -80,3 +90,7 @@ install(FILES
 	${CMAKE_CURRENT_BINARY_DIR}/ikuraConfig.cmake
 	${CMAKE_CURRENT_BINARY_DIR}/ikuraConfigVersion.cmake
 	DESTINATION lib/cmake/ikura)
+
+# header file
+install(FILES ${CMAKE_SOURCE_DIR}/src/ikura.hpp
+	DESTINATION include/ikura)

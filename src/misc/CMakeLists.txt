@@ -1,2 +1,6 @@
 add_library(initVulkanHppDispatchLoader STATIC initVulkanHppDispatchLoader.cpp)
 target_compile_definitions(initVulkanHppDispatchLoader PUBLIC VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1)
+
+install(FILES
+	${CMAKE_SOURCE_DIR}/src/misc/initVulkanHppDispatchLoader.hpp
+	DESTINATION include/ikura/misc)
