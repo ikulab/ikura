@@ -7,7 +7,7 @@ set(common_include_dir
 	$<INSTALL_INTERFACE:include/ikura>
 	$<INSTALL_INTERFACE:include/ikura/easylogging++>
 	$<INSTALL_INTERFACE:include/ikura/vk_mem_alloc>
-)                            
+)
 
 add_subdirectory(./common)
 
