@@ -37,6 +37,7 @@ add_subdirectory(./includes/easylogging++)
 add_subdirectory(./includes/vk_mem_alloc)
 
 add_library(ikura-ext-lib STATIC ${ikura-ext-src})
+target_compile_definitions(ikura-ext-lib PUBLIC AUTO_INITIALIZE_EASYLOGGINGPP)
 
 # shader compile ----------
 add_custom_target(
