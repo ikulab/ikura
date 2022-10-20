@@ -5,8 +5,9 @@
 #include <imgui/imgui_impl_vulkan.h>
 
 namespace ikura {
-void ImGuiVirtualWindow::initImGuiResources() {
-    ImGui::SetCurrentContext(imGuiContext);
+void ImGuiVirtualWindow::initImGuiResources(
+    ImGuiVirtualWindowInitConfig *initConfig) {
+    setCurrentImGuiContext();
 
     // create descriptor pool
     vk::DescriptorPoolSize poolSizes[] = {
@@ -47,10 +48,14 @@ void ImGuiVirtualWindow::initImGuiResources() {
     ImGui_ImplVulkan_Init(&initInfo,
                           nativeWindow->getRenderTarget()->getRenderPass());
 
-    // font
+    // Upload default font
     ImGuiIO &io = ImGui::GetIO();
-    io.Fonts->AddFontFromFileTTF("./fonts/NotoSansJP-Medium.otf", 18.0f,
-                                 nullptr, io.Fonts->GetGlyphRangesJapanese());
+
+    if (initConfig) {
+        io.Fonts->AddFontFromFileTTF(initConfig->fontFilePath,
+                                     initConfig->fontSizePixels, nullptr,
+                                     io.Fonts->GetGlyphRangesJapanese());
+    }
 
     auto cmd = renderEngine->beginSingleTimeCommands();
     ImGui_ImplVulkan_CreateFontsTexture(cmd);
@@ -60,7 +65,7 @@ void ImGuiVirtualWindow::initImGuiResources() {
 }
 
 void ImGuiVirtualWindow::destroyImGuiResources() {
-    ImGui::SetCurrentContext(imGuiContext);
+    setCurrentImGuiContext();
 
     ImGui_ImplVulkan_Shutdown();
     ImGui_ImplGlfw_Shutdown();
@@ -71,18 +76,21 @@ void ImGuiVirtualWindow::destroyImGuiResources() {
 
 ImGuiVirtualWindow::ImGuiVirtualWindow(
     std::shared_ptr<RenderEngine> renderEngine,
-    std::shared_ptr<GlfwNativeWindow> nativeWindow)
+    std::shared_ptr<GlfwNativeWindow> nativeWindow,
+    ImGuiVirtualWindowInitConfig *initConfig)
     : VirtualWindow(renderEngine) {
 
     this->nativeWindow = nativeWindow;
 
     imGuiContext = ImGui::CreateContext();
-    initImGuiResources();
+    initImGuiResources(initConfig);
 }
 
 ImGuiVirtualWindow::~ImGuiVirtualWindow() { destroyImGuiResources(); }
 
 void ImGuiVirtualWindow::recordCommandBuffer(vk::CommandBuffer cmdBuffer) {
+    setCurrentImGuiContext();
+
     ImDrawData *drawData = ImGui::GetDrawData();
     ImGui_ImplVulkan_RenderDrawData(drawData, cmdBuffer);
 }

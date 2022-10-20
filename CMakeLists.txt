@@ -1,15 +1,16 @@
 cmake_minimum_required(VERSION 3.16)
 project(
 	ikura
-	VERSION 0.1.0
+	VERSION 1.0.0
 	LANGUAGES C CXX
 )
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
 add_compile_options(
 	-std=c++17 -fdiagnostics-color=always -g
 )
+configure_file(src/ikuraConfig.h.in src/ikuraConfig.h)
 
+# Clang setting ----------
 option(USE_CLANG "set CXX compiler to Clang" TRUE)
 
 if(USE_CLANG)
@@ -23,6 +24,7 @@ else()
 	set(CMAKE_C_COMPILER gcc)
 endif()
 
+# Release / Debug ----------
 if("${BUILD_TYPE}" STREQUAL "Release")
 	add_compile_options(-DNODEBUG)
 endif()

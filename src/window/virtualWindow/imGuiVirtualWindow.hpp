@@ -6,6 +6,11 @@
 #include "./virtualWindow.hpp"
 
 namespace ikura {
+struct ImGuiVirtualWindowInitConfig {
+    const char *fontFilePath;
+    float fontSizePixels;
+};
+
 class ImGuiVirtualWindow : public VirtualWindow {
   protected:
     std::shared_ptr<GlfwNativeWindow> nativeWindow;
@@ -13,12 +18,13 @@ class ImGuiVirtualWindow : public VirtualWindow {
 
     vk::DescriptorPool imGuiDescriptorPool;
 
-    void initImGuiResources();
+    void initImGuiResources(ImGuiVirtualWindowInitConfig *initConfig);
     void destroyImGuiResources();
 
   public:
     ImGuiVirtualWindow(std::shared_ptr<RenderEngine> renderEngine,
-                       std::shared_ptr<GlfwNativeWindow> nativeWindow);
+                       std::shared_ptr<GlfwNativeWindow> nativeWindow,
+                       ImGuiVirtualWindowInitConfig *initConfig);
     ~ImGuiVirtualWindow();
 
     void recordCommandBuffer(vk::CommandBuffer cmdBuffer) override;

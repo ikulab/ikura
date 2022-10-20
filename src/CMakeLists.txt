@@ -38,3 +38,6 @@ target_include_directories(ikura INTERFACE
 	$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>
 	$<INSTALL_INTERFACE:include/ikura>
 	$<INSTALL_INTERFACE:${common_include_dir}>)
+
+install(FILES ${CMAKE_BINARY_DIR}/src/ikuraConfig.h
+	DESTINATION include/ikura)
