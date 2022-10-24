@@ -3,6 +3,7 @@
 #include <easylogging++.h>
 
 #include "../../common/renderPrimitiveTypes.hpp"
+#include "../../common/resourceDirectory.hpp"
 
 namespace ikura {
 void BasicRenderTarget::setupRenderPass() {
@@ -162,15 +163,17 @@ void BasicRenderTarget::setupGraphicsPipeline() {
 
     // ShaderModules ----------
     auto vertShaderModule = createShaderModuleFromFile(
-        "shaders/bin/vert.spv", renderEngine->getDevice());
+        createResourceDirectoryPath("shaders/vert.spv"),
+        renderEngine->getDevice());
     auto fragShaderModule = createShaderModuleFromFile(
-        "shaders/bin/frag.spv", renderEngine->getDevice());
+        createResourceDirectoryPath("shaders/frag.spv"),
+        renderEngine->getDevice());
 
     vk::PipelineShaderStageCreateInfo vertShaderStageCI{};
     vertShaderStageCI.stage = vk::ShaderStageFlagBits::eVertex;
     vertShaderStageCI.module = vertShaderModule;
     vertShaderStageCI.pName = "main";
-
+/*  */
     vk::PipelineShaderStageCreateInfo fragShaderStageCI{};
     fragShaderStageCI.stage = vk::ShaderStageFlagBits::eFragment;
     fragShaderStageCI.module = fragShaderModule;
@@ -226,7 +229,6 @@ void BasicRenderTarget::setupGraphicsPipeline() {
     rasterizerCI.depthBiasEnable = VK_FALSE;
 
     vk::PipelineMultisampleStateCreateInfo multisamplingCI{};
-    // TODO: Enable MSAA
     multisamplingCI.sampleShadingEnable = VK_FALSE;
     multisamplingCI.rasterizationSamples =
         renderEngine->getEngineInfo().limit.maxMsaaSamples;

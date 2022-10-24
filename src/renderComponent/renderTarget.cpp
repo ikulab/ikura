@@ -253,7 +253,7 @@ void RenderTarget::createImageView(ImageResource &imageResource,
 }
 
 vk::ShaderModule
-RenderTarget::createShaderModuleFromFile(const std::string fileName,
+RenderTarget::createShaderModuleFromFile(const std::filesystem::path fileName,
                                          const vk::Device device) {
     std::ifstream file(fileName, std::ios::ate | std::ios::binary);
 

@@ -87,7 +87,7 @@ configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
 	NO_SET_AND_CHECK_MACRO
 	NO_CHECK_REQUIRED_COMPONENTS_MACRO)
 write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/ikuraConfigVersion.cmake"
-	VERSION "0.1.0"
+	VERSION CMAKE_PROJECT_VERSION
 	COMPATIBILITY AnyNewerVersion)
 
 install(FILES
@@ -98,3 +98,9 @@ install(FILES
 # header file
 install(FILES ${CMAKE_SOURCE_DIR}/src/ikura.hpp
 	DESTINATION include/ikura)
+
+# shader file
+install(FILES
+	${CMAKE_SOURCE_DIR}/shaders/bin/vert.spv
+	${CMAKE_SOURCE_DIR}/shaders/bin/frag.spv
+	DESTINATION ${CMAKE_INSTALL_DATADIR}share/ikura/shaders)

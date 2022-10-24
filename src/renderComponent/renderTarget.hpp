@@ -3,6 +3,7 @@
 #include <memory>
 #include <optional>
 #include <vector>
+#include <filesystem>
 
 #include <vulkan/vulkan.hpp>
 
@@ -69,7 +70,7 @@ class RenderTarget {
                                 const uint32_t mipLevels,
                                 const vk::Device device);
     static vk::ShaderModule
-    createShaderModuleFromFile(const std::string fileName,
+    createShaderModuleFromFile(const std::filesystem::path fileName,
                                const vk::Device device);
 
   public:
