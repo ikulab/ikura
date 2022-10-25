@@ -1,6 +1,6 @@
 file(GLOB_RECURSE sources *.cpp)
 
-add_library(shape STATIC ${sources})
+add_library(ikura-shape STATIC ${sources})
 
 file(GLOB headers ./*.hpp)
 install(FILES ${headers}

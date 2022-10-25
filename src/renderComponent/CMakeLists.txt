@@ -1,6 +1,6 @@
 file(GLOB_RECURSE sources *.cpp)
 
-add_library(renderComponent STATIC ${sources})
+add_library(ikura-renderComponent STATIC ${sources})
 
 file(GLOB headers ./*.hpp)
 install(FILES ${headers}

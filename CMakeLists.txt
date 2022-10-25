@@ -5,23 +5,24 @@ project(
 	LANGUAGES C CXX
 )
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 add_compile_options(
-	-std=c++17 -fdiagnostics-color=always -g
-)
+	-std=c++17 -fdiagnostics-color=always -g)
+
 configure_file(src/ikuraConfig.h.in src/ikuraConfig.h)
 
 # Clang setting ----------
 option(USE_CLANG "set CXX compiler to Clang" TRUE)
 
 if(USE_CLANG)
-	set(CMAKE_CXX_COMPILER clang++)
-	set(CMAKE_C_COMPILER clang)
+	set(CMAKE_CXX_COMPILER /usr/bin/clang++)
+	set(CMAKE_C_COMPILER /usr/bin/clang)
 	add_compile_options(
 		-Wno-nullability-completeness
 	)
 else()
-	set(CMAKE_CXX_COMPILER gcc)
-	set(CMAKE_C_COMPILER gcc)
+	set(CMAKE_CXX_COMPILER /usr/bin/gcc)
+	set(CMAKE_C_COMPILER /usr/bin/gcc)
 endif()
 
 # Release / Debug ----------
@@ -37,22 +38,18 @@ set(ikura-ext-src "")
 add_subdirectory(./includes/imgui)
 add_subdirectory(./includes/easylogging++)
 add_subdirectory(./includes/vk_mem_alloc)
+add_subdirectory(./includes/shaderc)
+add_subdirectory(./includes/libshaderc_util)
 
 add_library(ikura-ext-lib STATIC ${ikura-ext-src})
 target_compile_definitions(ikura-ext-lib PUBLIC AUTO_INITIALIZE_EASYLOGGINGPP)
 
-# shader compile ----------
-add_custom_target(
-	shaders
-	make -f compile_shaders.makefile
-	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/scripts
-	DEPENDS ${CMAKE_SOURCE_DIR}/shaders/shader.frag ${CMAKE_SOURCE_DIR}/shaders/shader.vert
-	COMMENT "compiling shaders"
-)
-
 # ikura lib ----------
 add_subdirectory(./src)
-add_dependencies(ikura shaders)
+
+# link external static library files
+target_link_libraries(ikura
+	PUBLIC ${CMAKE_SOURCE_DIR}/libs/libshaderc_combined.a)
 
 # ikura dependencies
 target_link_libraries(ikura INTERFACE vulkan glfw ${CMAKE_DL_LIBS})
@@ -60,17 +57,10 @@ target_link_libraries(ikura INTERFACE ikura-ext-lib)
 
 # install ----------
 set(ikura_install_targets
-	ikura window nativeWindow virtualWindow
-	appEngine renderEngine renderComponent shape
-	initVulkanHppDispatchLoader
-	ikura-ext-lib
+	ikura ikura-window ikura-nativeWindow ikura-virtualWindow
+	ikura-appEngine ikura-renderEngine ikura-renderComponent
+	ikura-shape ikura-common ikura-misc ikura-ext-lib
 )
-
-add_custom_target(ikura-pack ALL
-	COMMAND ${CMAKE_SOURCE_DIR}/scripts/pack_library.sh
-	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-	DEPENDS ${ikura_install_targets}
-	COMMENT "packing ikura.a")
 
 install(TARGETS ${ikura_install_targets}
 	EXPORT ikuraTargets)

@@ -1,6 +1,8 @@
 #pragma once
 
-#include "ikuraConfig.h"
+#include "ikura/ikuraConfig.h"
+
+#include "init.hpp"
 
 // Includes ----------
 // Engine

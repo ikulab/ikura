@@ -2,12 +2,12 @@
 find_package(glfw3 3.3 REQUIRED)
 
 # add libraries
-add_library(appEngine STATIC appEngine.cpp)
+add_library(ikura-appEngine STATIC appEngine.cpp)
 
 file(GLOB RENDER_ENGINE_SOURCE renderEngine/*.cpp)
-add_library(renderEngine STATIC ${RENDER_ENGINE_SOURCE})
+add_library(ikura-renderEngine STATIC ${RENDER_ENGINE_SOURCE})
 
-target_compile_definitions(renderEngine PUBLIC VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1)
+target_compile_definitions(ikura-renderEngine PUBLIC VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1)
 
 install(FILES
 	${CMAKE_SOURCE_DIR}/src/engine/appEngine.hpp
