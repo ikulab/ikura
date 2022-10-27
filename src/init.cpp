@@ -8,8 +8,12 @@
 #include <libshaderc_util/io_shaderc.h>
 #include <shaderc/shaderc.hpp>
 
+#include <ikura/ikuraConfig.h>
+
 #include "./common/resourceDirectory.hpp"
 #include "./misc/shaderCodes.hpp"
+
+#define VERSION_INFO_FILE_NAME "version_info.txt"
 
 namespace ikura {
 void compileGlslCodeAndOutput(shaderc::Compiler &compiler,
@@ -48,6 +52,74 @@ void compileGlslCodeAndOutput(shaderc::Compiler &compiler,
     outputStream->write(compilationOutput.data(), compilationOutput.size());
 }
 
+std::string getCurrentVersionString() {
+    std::string versionInfoStr;
+    versionInfoStr += std::to_string(IKURA_VERSION_MAJOR);
+    versionInfoStr += ".";
+    versionInfoStr += std::to_string(IKURA_VERSION_MINOR);
+    versionInfoStr += ".";
+    versionInfoStr += std::to_string(IKURA_VERSION_PATCH);
+
+    return versionInfoStr;
+}
+
+// creates vertex / fragment shader file (.spv) to shader resource directory
+void createShaderFiles(std::filesystem::path shaderResourceDirPath) {
+    shaderc::Compiler spvCompiler;
+
+    VLOG(VLOG_LV_3_PROCESS_TRACKING)
+        << "Generating " << shaderResourceDirPath / "vert.spv"
+        << " ...";
+
+    compileGlslCodeAndOutput(
+        spvCompiler,                                /* compiler */
+        shaderResourceDirPath / "vert.spv",         /* output path */
+        VERTEX_SHADER_CODE.c_str(),                 /* shader code */
+        VERTEX_SHADER_CODE.size(),                  /* shader code size */
+        shaderc_shader_kind::shaderc_vertex_shader, /* kind */
+        "vertex_shader"                             /* shader name */
+    );
+
+    VLOG(VLOG_LV_3_PROCESS_TRACKING)
+        << "Generating " << shaderResourceDirPath / "frag.spv"
+        << " ...";
+
+    compileGlslCodeAndOutput(
+        spvCompiler,                                  /* compiler */
+        shaderResourceDirPath / "frag.spv",           /* output path */
+        FRAGMENT_SHADER_CODE.c_str(),                 /* shader code */
+        FRAGMENT_SHADER_CODE.size(),                  /* shader code size */
+        shaderc_shader_kind::shaderc_fragment_shader, /* kind */
+        "fragment_shader"                             /* shader name */
+    );
+}
+
+// Overwrite shader file if (version is difference) or (shader files not exist)
+void overwriteShaderFilesIfNeeded(std::filesystem::path shaderDir) {
+    // if version info file NOT exists
+    if (!std::filesystem::exists(shaderDir / VERSION_INFO_FILE_NAME)) {
+        createShaderFiles(shaderDir);
+        return;
+    }
+
+    // if any shader files are NOT exist
+    if (!std::filesystem::exists(shaderDir / "vert.spv") ||
+        !std::filesystem::exists(shaderDir / "frag.spv")) {
+        createShaderFiles(shaderDir);
+        return;
+    }
+
+    // if recorded version is differ from current version
+    std::ifstream versionFileIn(shaderDir / VERSION_INFO_FILE_NAME);
+    std::string recordedVersionString;
+    versionFileIn >> recordedVersionString;
+
+    if (recordedVersionString != getCurrentVersionString()) {
+        createShaderFiles(shaderDir);
+        return;
+    }
+}
+
 void createDirectoryIfNotExists(std::filesystem::path directoryPath) {
     if (!std::filesystem::exists(directoryPath)) {
         VLOG(VLOG_LV_3_PROCESS_TRACKING)
@@ -64,44 +136,14 @@ void init() {
     createDirectoryIfNotExists(createResourceDirectoryPath(""));
     createDirectoryIfNotExists(createResourceDirectoryPath("shaders"));
 
-    // generate .spv files if not exists ----------
-    VLOG(VLOG_LV_3_PROCESS_TRACKING) << "Checking for shaders...";
     auto shaderDir = createResourceDirectoryPath("shaders");
-    shaderc::Compiler spvCompiler;
 
-    if (!std::filesystem::exists(shaderDir / "vert.spv")) {
-        VLOG(VLOG_LV_3_PROCESS_TRACKING)
-            << shaderDir / "vert.spv"
-            << " is not exists. Generating shader file...";
+    // create .spv files if not exists
+    overwriteShaderFilesIfNeeded(shaderDir);
 
-        // clang-format off
-        compileGlslCodeAndOutput(
-            spvCompiler,                /* compiler */
-            shaderDir / "vert.spv",     /* output path */
-            VERTEX_SHADER_CODE.c_str(), /* shader code */
-            VERTEX_SHADER_CODE.size(),  /* shader code size */
-            shaderc_shader_kind::shaderc_vertex_shader, /* kind */
-            "vertex_shader"             /* shader name */
-        );
-        // clang-format on
-    }
-
-    if (!std::filesystem::exists(shaderDir / "frag.spv")) {
-        VLOG(VLOG_LV_3_PROCESS_TRACKING)
-            << shaderDir / "frag.spv"
-            << " is not exists. Generating shader file...";
-
-        // clang-format off
-        compileGlslCodeAndOutput(
-            spvCompiler,                                  /* compiler */
-            shaderDir / "frag.spv",                       /* output path */
-            FRAGMENT_SHADER_CODE.c_str(),                 /* shader code */
-            FRAGMENT_SHADER_CODE.size(),                  /* shader code size */
-            shaderc_shader_kind::shaderc_fragment_shader, /* kind */
-            "fragment_shader"                             /* shader name */
-        );
-        // clang-format on
-    }
+    // record current version to shader resource directory
+    std::ofstream versionFileOut(shaderDir / VERSION_INFO_FILE_NAME);
+    versionFileOut << getCurrentVersionString();
 
     VLOG(VLOG_LV_3_PROCESS_TRACKING) << "ikura has been initialized.";
 }

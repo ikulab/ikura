@@ -52,7 +52,6 @@ void ImGuiVirtualWindow::initImGuiResources(
     ImGuiIO &io = ImGui::GetIO();
 
     if (initConfig) {
-        std::cout << initConfig->fontFilePath << std::endl;
         io.Fonts->AddFontFromFileTTF(initConfig->fontFilePath,
                                      initConfig->fontSizePixels, nullptr,
                                      io.Fonts->GetGlyphRangesJapanese());

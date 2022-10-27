@@ -88,9 +88,3 @@ install(FILES
 # header file
 install(FILES ${CMAKE_SOURCE_DIR}/src/ikura.hpp
 	DESTINATION include/ikura)
-
-# shader file
-install(FILES
-	${CMAKE_SOURCE_DIR}/shaders/bin/vert.spv
-	${CMAKE_SOURCE_DIR}/shaders/bin/frag.spv
-	DESTINATION ${CMAKE_INSTALL_DATADIR}share/ikura/shaders)
