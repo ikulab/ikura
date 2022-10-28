@@ -14,17 +14,6 @@ configure_file(src/ikuraConfig.h.in src/ikuraConfig.h)
 # Clang setting ----------
 option(USE_CLANG "set CXX compiler to Clang" TRUE)
 
-if(USE_CLANG)
-	set(CMAKE_CXX_COMPILER /usr/bin/clang++)
-	set(CMAKE_C_COMPILER /usr/bin/clang)
-	add_compile_options(
-		-Wno-nullability-completeness
-	)
-else()
-	set(CMAKE_CXX_COMPILER /usr/bin/gcc)
-	set(CMAKE_C_COMPILER /usr/bin/gcc)
-endif()
-
 # Release / Debug ----------
 if("${BUILD_TYPE}" STREQUAL "Release")
 	add_compile_options(-DNODEBUG)
