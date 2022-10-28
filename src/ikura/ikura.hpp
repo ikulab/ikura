@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ikura/ikuraConfig.h"
+#include <ikura/ikuraConfig.h>
 
 #include "init.hpp"
 

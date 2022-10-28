@@ -8,7 +8,7 @@
 #include <libshaderc_util/io_shaderc.h>
 #include <shaderc/shaderc.hpp>
 
-#include <ikura/ikuraConfig.h>
+#include "./ikuraConfig.h"
 
 #include "./common/resourceDirectory.hpp"
 #include "./misc/shaderCodes.hpp"

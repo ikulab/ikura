@@ -9,7 +9,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_compile_options(
 	-std=c++17 -fdiagnostics-color=always -g)
 
-configure_file(src/ikuraConfig.h.in src/ikuraConfig.h)
+configure_file(${PROJECT_SOURCE_DIR}/src/ikura/ikuraConfig.h.in
+	${PROJECT_SOURCE_DIR}/src/ikura/ikuraConfig.h)
 
 # Clang setting ----------
 option(USE_CLANG "set CXX compiler to Clang" TRUE)
@@ -34,11 +35,11 @@ add_library(ikura-ext-lib STATIC ${ikura-ext-src})
 target_compile_definitions(ikura-ext-lib PUBLIC AUTO_INITIALIZE_EASYLOGGINGPP)
 
 # ikura lib ----------
-add_subdirectory(./src)
+add_subdirectory(./src/ikura)
 
 # link external static library files
 target_link_libraries(ikura
-	PUBLIC ${CMAKE_SOURCE_DIR}/libs/libshaderc_combined.a)
+	PUBLIC ${PROJECT_SOURCE_DIR}/libs/libshaderc_combined.a)
 
 # ikura dependencies
 target_link_libraries(ikura INTERFACE vulkan glfw ${CMAKE_DL_LIBS})
@@ -75,5 +76,5 @@ install(FILES
 	DESTINATION lib/cmake/ikura)
 
 # header file
-install(FILES ${CMAKE_SOURCE_DIR}/src/ikura.hpp
+install(FILES ${PROJECT_SOURCE_DIR}/src/ikura.hpp
 	DESTINATION include/ikura)

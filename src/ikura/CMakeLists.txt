@@ -42,7 +42,7 @@ target_include_directories(ikura-shape PUBLIC "${common_include_dir}")
 target_link_libraries(ikura PUBLIC ikura-shape)
 
 target_include_directories(ikura INTERFACE
-	$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
 	$<INSTALL_INTERFACE:include/ikura>
 	$<INSTALL_INTERFACE:${common_include_dir}>)
 
