@@ -1,14 +1,14 @@
 set(common_include_dir
-$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes>
-$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes/easylogging++>
-$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes/vk_mem_alloc>
-$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes/shaderc>
-$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes/libshaderc_util>
-$<INSTALL_INTERFACE:include/ikura>
-$<INSTALL_INTERFACE:include/ikura/easylogging++>
-$<INSTALL_INTERFACE:include/ikura/vk_mem_alloc>
-$<INSTALL_INTERFACE:include/ikura/shaderc>
-$<INSTALL_INTERFACE:include/ikura/libshaderc_util>
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes>
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes/easylogging++>
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes/vk_mem_alloc>
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes/shaderc>
+	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includes/libshaderc_util>
+	$<INSTALL_INTERFACE:include/ikura>
+	$<INSTALL_INTERFACE:include/ikura/easylogging++>
+	$<INSTALL_INTERFACE:include/ikura/vk_mem_alloc>
+	$<INSTALL_INTERFACE:include/ikura/shaderc>
+	$<INSTALL_INTERFACE:include/ikura/libshaderc_util>
 )
 
 add_library(ikura STATIC init.cpp)
@@ -46,5 +46,7 @@ target_include_directories(ikura INTERFACE
 	$<INSTALL_INTERFACE:include/ikura>
 	$<INSTALL_INTERFACE:${common_include_dir}>)
 
-install(FILES ${CMAKE_BINARY_DIR}/src/ikuraConfig.h init.hpp
+install(FILES
+	${PROJECT_SOURCE_DIR}/src/ikura/ikuraConfig.h
+	${PROJECT_SOURCE_DIR}/src/ikura/init.hpp
 	DESTINATION include/ikura)

@@ -7,7 +7,9 @@ project(
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_compile_options(
-	-std=c++17 -fdiagnostics-color=always -g)
+	-std=c++17 -fdiagnostics-color=always -g
+	-Wno-nullability-completeness
+)
 
 configure_file(${PROJECT_SOURCE_DIR}/src/ikura/ikuraConfig.h.in
 	${PROJECT_SOURCE_DIR}/src/ikura/ikuraConfig.h)
@@ -76,5 +78,5 @@ install(FILES
 	DESTINATION lib/cmake/ikura)
 
 # header file
-install(FILES ${PROJECT_SOURCE_DIR}/src/ikura.hpp
+install(FILES ${PROJECT_SOURCE_DIR}/src/ikura/ikura.hpp
 	DESTINATION include/ikura)
