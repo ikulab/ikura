@@ -11,6 +11,13 @@ set(common_include_dir
 	$<INSTALL_INTERFACE:include/ikura/libshaderc_util>
 )
 
+if(APPLE)
+	set(common_include_dir
+		${common_include_dir}
+		$<BUILD_INTERFACE:/usr/local/include>
+	)
+endif()
+
 add_library(ikura STATIC init.cpp)
 target_link_directories(ikura PUBLIC "${common_include_dir}")
 

@@ -19,6 +19,9 @@ void RenderEngine::createInstance() {
     VLOG(VLOG_LV_3_PROCESS_TRACKING) << "Creating Vulkan Instance...";
 
     vk::InstanceCreateInfo instanceCI{};
+#ifdef __APPLE__
+    instanceCI.flags = vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR;
+#endif
 
     // application info ----------
     vk::ApplicationInfo appInfo;

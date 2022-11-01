@@ -36,6 +36,10 @@ add_subdirectory(./includes/libshaderc_util)
 add_library(ikura-ext-lib STATIC ${ikura-ext-src})
 target_compile_definitions(ikura-ext-lib PUBLIC AUTO_INITIALIZE_EASYLOGGINGPP)
 
+if(APPLE)
+	target_include_directories(ikura-ext-lib PUBLIC "/usr/local/include")
+endif()
+
 # ikura lib ----------
 add_subdirectory(./src/ikura)
 

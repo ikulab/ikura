@@ -144,7 +144,8 @@ vk::PhysicalDevice RenderEngine::getSuitablePhysicalDeviceInfo(
     // if score(key) < 0, this device is not suitable.
     std::multimap<PhysicalDeviceEvaluation, vk::PhysicalDevice> candidates;
 
-    VLOG(VLOG_LV_6_ITEM_ENUMERATION) << "PhysicalDevices with vulkan support:";
+    VLOG(VLOG_LV_6_ITEM_ENUMERATION) << "PhysicalDevices with vulkan support ("
+                                     << devices.size() << " devices) :";
     for (const auto &dev : devices) {
         PhysicalDeviceEvaluation eval{};
 
@@ -174,6 +175,7 @@ vk::PhysicalDevice RenderEngine::getSuitablePhysicalDeviceInfo(
     if (candidates.rbegin()->first.score < 0) {
         throw std::runtime_error("Cannot find suitable GPU.");
     }
+
     return candidates.rbegin()->second;
 }
 
