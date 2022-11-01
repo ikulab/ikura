@@ -162,7 +162,10 @@ RenderEngineInitConfig RenderEngineInitConfig::defaultDebugSetting() {
     initConfig.instanceExtensionNames.push_back(
         VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
     initConfig.instanceExtensionNames.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
-    initConfig.instanceExtensionNames.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+#ifdef __APPLE__
+    initConfig.instanceExtensionNames.push_back(
+        VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+#endif
 
     initConfig.deviceExtensionNames.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 
