@@ -17,13 +17,9 @@ class AppEngine {
     std::vector<std::shared_ptr<NativeWindow>> nativeWindows;
 
     float fps = 60.0;
-#ifdef __APPLE__
     std::chrono::high_resolution_clock::time_point startTime;
     std::chrono::high_resolution_clock::time_point currentTime;
-#else
-    std::chrono::_V2::system_clock::time_point startTime;
-    std::chrono::_V2::system_clock::time_point currentTime;
-#endif
+
     float secondsFromStart;
     float deltaTime;
 
