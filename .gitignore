@@ -18,6 +18,8 @@ myeasylog.log
 .ccls-cache
 compile_commands.json
 
+download
+
 # template -------------
 # Prerequisites
 *.d
