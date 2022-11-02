@@ -145,6 +145,7 @@ class RenderEngine {
     void setSampleSurface(vk::SurfaceKHR surface);
 
     // Misc ----------
+    // TODO: rename to getSuitablePhysicalDevice()
     static vk::PhysicalDevice
     getSuitablePhysicalDeviceInfo(const RenderEngine *pEngine,
                                   std::vector<vk::PhysicalDevice> devices);

@@ -13,8 +13,10 @@ class GlfwNativeWindow : public NativeWindow {
   protected:
     GLFWwindow *window;
 
+    // TODO: make them NativeWindow:: protected member ---
     bool frameBufferResized = false;
     vk::SwapchainCreateInfoKHR swapChainCICache;
+    // ---
 
     void createSwapChain();
     static void framebufferResizeCallback(GLFWwindow *window, int width,

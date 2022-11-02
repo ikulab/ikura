@@ -13,6 +13,7 @@ struct ImGuiVirtualWindowInitConfig {
 
 class ImGuiVirtualWindow : public VirtualWindow {
   protected:
+    // make *nativeWindow VirtualWindow:: protected member
     std::shared_ptr<GlfwNativeWindow> nativeWindow;
     ImGuiContext *imGuiContext;
 
@@ -31,6 +32,7 @@ class ImGuiVirtualWindow : public VirtualWindow {
     bool isFocused() const override;
 
     void setCurrentImGuiContext() const;
+    // TODO: rename to newImGuiFrame()
     void newFrame();
 };
 } // namespace ikura
