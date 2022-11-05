@@ -165,6 +165,7 @@ RenderEngineInitConfig RenderEngineInitConfig::defaultDebugSetting() {
     initConfig.instanceExtensionNames.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
 
     initConfig.deviceExtensionNames.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+    initConfig.deviceExtensionNames.push_back("VK_KHR_portability_subset");
 
     return initConfig;
 }
