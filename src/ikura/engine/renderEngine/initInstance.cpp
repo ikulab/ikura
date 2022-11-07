@@ -19,7 +19,7 @@ void RenderEngine::createInstance() {
     VLOG(VLOG_LV_3_PROCESS_TRACKING) << "Creating Vulkan Instance...";
 
     vk::InstanceCreateInfo instanceCI{};
-#ifdef __APPLE__
+#if defined(__APPLE__) && defined(VK_KHR_portability_enumeration)
     instanceCI.flags = vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR;
 #endif
 

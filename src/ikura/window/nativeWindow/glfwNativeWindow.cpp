@@ -263,11 +263,6 @@ void GlfwNativeWindow::recordCommandBuffer(uint32_t imageIndex) {
     renderTarget->getRenderCommandBuffer(currentFrame)
         .beginRenderPass(renderPassInfo, vk::SubpassContents::eInline);
 
-    for (auto &vWindow : virtualWindows) {
-        vWindow->recordCommandBuffer(
-            renderTarget->getRenderCommandBuffer(currentFrame));
-    }
-
     // Bind objects ----------
     renderTarget->getRenderCommandBuffer(currentFrame)
         .bindPipeline(vk::PipelineBindPoint::eGraphics,

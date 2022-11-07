@@ -162,7 +162,9 @@ RenderEngineInitConfig RenderEngineInitConfig::defaultDebugSetting() {
     initConfig.instanceExtensionNames.push_back(
         VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
     initConfig.instanceExtensionNames.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
-    initConfig.instanceExtensionNames.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+#if defined(__APPLE__) && defined(VK_KHR_portability_enumeration)
+    initConfig.instanceExtensionNames.push_back("VK_KHR_portability_enumeration");
+#endif
 
     initConfig.deviceExtensionNames.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
     initConfig.deviceExtensionNames.push_back("VK_KHR_portability_subset");
