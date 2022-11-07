@@ -167,7 +167,9 @@ RenderEngineInitConfig RenderEngineInitConfig::defaultDebugSetting() {
 #endif
 
     initConfig.deviceExtensionNames.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+#if defined(__APPLE__)
     initConfig.deviceExtensionNames.push_back("VK_KHR_portability_subset");
+#endif
 
     return initConfig;
 }
