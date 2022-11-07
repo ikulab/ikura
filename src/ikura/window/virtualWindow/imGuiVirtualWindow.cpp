@@ -25,8 +25,8 @@ void ImGuiVirtualWindow::initImGuiResources(
 
     vk::DescriptorPoolCreateInfo poolCI{};
     poolCI.flags = vk::DescriptorPoolCreateFlagBits::eFreeDescriptorSet;
-    poolCI.maxSets = 1000;
-    poolCI.poolSizeCount = std::size(poolSizes);
+    poolCI.maxSets = 1000 * IM_ARRAYSIZE(poolSizes);
+    poolCI.poolSizeCount = (uint32_t)IM_ARRAYSIZE(poolSizes);
     poolCI.pPoolSizes = poolSizes;
 
     imGuiDescriptorPool =
@@ -38,6 +38,8 @@ void ImGuiVirtualWindow::initImGuiResources(
     initInfo.Instance = renderEngine->getInstance();
     initInfo.PhysicalDevice = renderEngine->getPhysicalDevice();
     initInfo.Device = renderEngine->getDevice();
+    initInfo.QueueFamily = renderEngine->getQueueFamilyIndices().get(
+        ikura::QueueFamilyIndices::GRAPHICS);
     initInfo.Queue = renderEngine->getQueues().graphicsQueue;
     initInfo.DescriptorPool = imGuiDescriptorPool;
     initInfo.MinImageCount = 3;
@@ -81,6 +83,8 @@ ImGuiVirtualWindow::ImGuiVirtualWindow(
     : VirtualWindow(renderEngine) {
 
     this->nativeWindow = nativeWindow;
+
+    IMGUI_CHECKVERSION();
 
     imGuiContext = ImGui::CreateContext();
     initImGuiResources(initConfig);

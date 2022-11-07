@@ -65,7 +65,7 @@ void BasicRenderTarget::setupRenderPass() {
     dependency.srcStageMask =
         (vk::PipelineStageFlagBits::eColorAttachmentOutput |
          vk::PipelineStageFlagBits::eEarlyFragmentTests);
-    dependency.srcAccessMask = vk::AccessFlagBits::eNone;
+    dependency.srcAccessMask = vk::AccessFlagBits::eNoneKHR;
     // destination
     dependency.dstSubpass = 0;
     dependency.dstStageMask =
