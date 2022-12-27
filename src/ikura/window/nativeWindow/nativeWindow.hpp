@@ -22,8 +22,6 @@ class NativeWindow : public Window {
     uint32_t currentFrame = 0;
     bool swapChainResized = false;
 
-    std::shared_ptr<RenderTarget> renderTarget;
-
     std::vector<std::shared_ptr<VirtualWindow>> virtualWindows;
 
     NativeWindow() {}
@@ -47,9 +45,5 @@ class NativeWindow : public Window {
     const uint32_t getCurrentFrameIndex() const;
     const std::vector<std::shared_ptr<VirtualWindow>> &
     getVirtualWindows() const;
-    const std::shared_ptr<RenderTarget> &getRenderTarget();
-
-    // Setters ----------
-    void setRenderTarget(std::shared_ptr<RenderTarget> renderTarget);
 };
 } // namespace ikura
