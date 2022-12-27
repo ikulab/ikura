@@ -59,4 +59,13 @@ const std::vector<std::shared_ptr<VirtualWindow>> &
 NativeWindow::getVirtualWindows() const {
     return virtualWindows;
 }
+
+const std::shared_ptr<RenderTarget> &NativeWindow::getRenderTarget() {
+    return renderTarget;
+}
+
+void NativeWindow::setRenderTarget(std::shared_ptr<RenderTarget> renderTarget) {
+    this->renderTarget = renderTarget;
+}
+
 } // namespace ikura

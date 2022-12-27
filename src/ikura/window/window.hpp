@@ -22,7 +22,6 @@ class Window {
     bool resourceDestroyed = false;
 
     std::shared_ptr<RenderContent> renderContent;
-    std::shared_ptr<RenderTarget> renderTarget;
 
   public:
     virtual ~Window();
@@ -34,11 +33,9 @@ class Window {
     const vk::DescriptorSetLayout getDescriptorSetLayout() const;
     const int getWidth() const;
     const int getHeight() const;
-    const std::shared_ptr<RenderTarget> &getRenderTarget();
     const std::shared_ptr<RenderContent> &getRenderContent();
 
     // Setters ----------
-    void setRenderTarget(std::shared_ptr<RenderTarget> renderTarget);
     void setRenderContent(std::shared_ptr<RenderContent> renderContent);
 };
 } // namespace ikura
