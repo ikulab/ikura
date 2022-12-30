@@ -7,6 +7,7 @@
 namespace ikura {
 namespace shapes {
 class Sphere : public Shape {
+  protected:
     glm::vec3 pos;
     float r;
     uint32_t numSplitH, numSplitV;

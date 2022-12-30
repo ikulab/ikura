@@ -1,5 +1,5 @@
 #include "./octahedronBone.hpp"
-#include "../sphere/sphere.hpp"
+#include "../sphere/singleColorSphere.hpp"
 
 namespace ikura {
 namespace shapes {
@@ -61,8 +61,11 @@ OctahedronBone::OctahedronBone(float length, GroupID id) : Bone(length, id) {
     }
 
     // root and tip Spheres ---
-    Sphere rootSphere(length * 0.03, 10, 10, glm::vec3(length, 0.0, 0.0), id);
-    Sphere tipSphere(length * 0.02, 10, 10, glm::vec3(0.0, 0.0, 0.0), id);
+    SingleColorSphere rootSphere(length * 0.03, 10, 10,
+                                 glm::vec3(length, 0.0, 0.0),
+                                 glm::vec3(0.8, 0.8, 0.8), id);
+    SingleColorSphere tipSphere(length * 0.02, 10, 10, glm::vec3(0.0, 0.0, 0.0),
+                                glm::vec3(0.8, 0.8, 0.8), id);
 
     BasicIndex baseIndex = static_cast<uint32_t>(vertices.size());
     rootSphere.setBaseIndex(baseIndex);
