@@ -6,7 +6,9 @@ GradationColorCube::GradationColorCube(float width, float height, float depth,
                                        glm::vec3 pos,
                                        std::array<glm::vec3, 8> colors,
                                        GroupID id)
-    : Cube(width, height, depth, pos, id), colors(colors) {}
+    : Cube(width, height, depth, pos, id), colors(colors) {
+    init();
+}
 
 void GradationColorCube::init() {
     float xp = width / 2.0f + pos.r;

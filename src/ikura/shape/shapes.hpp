@@ -9,6 +9,7 @@
 #include "./bone/stickTetrahedronBone.hpp"
 
 #include "./sphere/sphere.hpp"
+#include "./sphere/singleColorSphere.hpp"
 
 #include "./cube/cube.hpp"
 #include "./cube/gradationColorCube.hpp"

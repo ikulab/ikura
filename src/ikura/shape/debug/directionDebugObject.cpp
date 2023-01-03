@@ -5,7 +5,7 @@
 namespace ikura {
 namespace shapes {
 DirectionDebugObject::DirectionDebugObject(float size, GroupID id)
-    : Shape(id), size(size) {
+    : DebugObject(id), size(size) {
     float thickness = size / 8;
     axes[0] = std::make_unique<SingleColorCube>(
         size, thickness, thickness,
